@@ -13,6 +13,29 @@ namespace Hebony
         {
             ConfigureAuth(app);
             //createRolesandUsers();
+            //createAdmin();
+
+        }
+
+        private void createAdmin()
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            var user = new ApplicationUser();
+            user.UserName = "ebonyhope";
+            user.Email = "blessyn2hope@gmail.com";
+
+            string userPWD = "password";
+
+            var chkUser = UserManager.Create(user, userPWD);
+
+            //Add default User to Role Admin    
+            if (chkUser.Succeeded)
+            {
+                var result1 = UserManager.AddToRole(user.Id, "Admin");
+
+            }
         }
 
         private void createRolesandUsers()
