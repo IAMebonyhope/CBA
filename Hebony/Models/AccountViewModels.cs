@@ -49,9 +49,9 @@ namespace Hebony.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "User Name")]
         [EmailAddress]
-        public string Email { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,6 +64,8 @@ namespace Hebony.Models
 
     public class RegisterViewModel
     {
+        public string ID { get; set; }
+
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -77,7 +79,7 @@ namespace Hebony.Models
         public string UserName { get; set; }
 
         [Required]
-        [Display(Name = "BranchID")]
+        [Display(Name = "Branch")]
         public int BranchID { get; set; }
 
         [Required]
@@ -86,8 +88,8 @@ namespace Hebony.Models
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "RoleID")]
-        public int RoleID { get; set; }
+        [Display(Name = "Role")]
+        public string RoleID { get; set; }
 
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }

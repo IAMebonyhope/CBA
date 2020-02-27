@@ -36,6 +36,6 @@ namespace Hebony.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<Hebony.Models.Branch> Branches { get; set; }
+        public DbSet<Hebony.Models.Branch> Branches { get; set; }
     }
 }

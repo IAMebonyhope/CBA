@@ -12,12 +12,12 @@ namespace Hebony.Controllers
 {
     public class BranchController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext context = new ApplicationDbContext();
 
         // GET: Branch
         public ActionResult Index()
         {
-            return View(db.Branches.ToList());
+            return View(context.Branches.ToList());
         }
 
         // GET: Branch/Details/5
@@ -27,7 +27,7 @@ namespace Hebony.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branches.Find(id);
+            Branch branch = context.Branches.Find(id);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -52,8 +52,8 @@ namespace Hebony.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Branches.Add(branch);
-                db.SaveChanges();
+                context.Branches.Add(branch);
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -69,7 +69,7 @@ namespace Hebony.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branches.Find(id);
+            Branch branch = context.Branches.Find(id);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -87,8 +87,8 @@ namespace Hebony.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(branch).State = EntityState.Modified;
-                db.SaveChanges();
+                context.Entry(branch).State = EntityState.Modified;
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(branch);
@@ -102,7 +102,7 @@ namespace Hebony.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branches.Find(id);
+            Branch branch = context.Branches.Find(id);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -116,9 +116,9 @@ namespace Hebony.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Branch branch = db.Branches.Find(id);
-            db.Branches.Remove(branch);
-            db.SaveChanges();
+            Branch branch = context.Branches.Find(id);
+            context.Branches.Remove(branch);
+            context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -126,7 +126,7 @@ namespace Hebony.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                context.Dispose();
             }
             base.Dispose(disposing);
         }
