@@ -15,6 +15,8 @@ namespace Hebony.Models
 
         public Branch Branch { get; set; }
 
+        public GLAccount GLAccount { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -37,5 +39,15 @@ namespace Hebony.Models
         }
 
         public DbSet<Hebony.Models.Branch> Branches { get; set; }
+
+        public DbSet<Hebony.Models.GLCategory> GLCategories { get; set; }
+
+        public DbSet<Hebony.Models.GLAccount> GLAccounts { get; set; }
+
+        public DbSet<Hebony.Models.CustomerAccountType> CustomerAccountTypes { get; set; }
+
+        public DbSet<Hebony.Models.CustomerAccount> CustomerAccounts { get; set; }
+
+        public DbSet<Hebony.Models.Customer> Customers { get; set; }
     }
 }

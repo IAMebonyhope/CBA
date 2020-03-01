@@ -23,8 +23,8 @@ namespace Hebony
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
             var user = new ApplicationUser();
-            user.UserName = "ebonyhope";
-            user.Email = "blessyn2hope@gmail.com";
+            user.UserName = "admin3";
+            user.Email = "admin3@gmail.com";
 
             string userPWD = "password";
 
