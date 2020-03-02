@@ -1,4 +1,4 @@
-﻿@model Hebony.Models.GLCategoryViewModel
+﻿@model Hebony.Models.GLAccountViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -10,9 +10,9 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div>
-                    GL Category Management / Create New
+                    GL Account Management / Create New
                     <div class="page-title-subheading">
-                        create new gl category
+                        create new gl account
                     </div>
                 </div>
             </div>
@@ -22,7 +22,7 @@
         <div class="col-md-6">
             <div class="main-card mb-3 card">
                 <div class="card-body">
-                    <h5 class="card-title">New GL Category</h5>
+                    <h5 class="card-title">New GL Account</h5>
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
@@ -38,22 +38,34 @@
                             </div>
 
                             <div class="position-relative form-group">
-                                @Html.LabelFor(model => model.MainCategoryID)
-                                <select name="MainCategoryID" id="MainCategoryID" class="form-control">
-                                    @foreach (int i in Enum.GetValues(typeof(Hebony.Models.MainCategory)))
-                                    {
-                                        <option value=@i>@Enum.GetName(typeof(Hebony.Models.MainCategory), i)</option>
-                                    }
-                                </select>                       
-                                @Html.ValidationMessageFor(model => model.MainCategoryID, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.Balance, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Balance, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Balance, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="position-relative form-group">
-                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.BranchID)
+                                <select name="BranchID" id="BranchID" class="form-control">
+                                    @foreach (var branch in (ViewData["Branches"] as List<Hebony.Models.Branch>))
+                                    {
+                                        <option value=@branch.ID>@branch.Name</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.BranchID, "", new { @class = "text-danger" })
                             </div>
 
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.GLCategoryID)
+                                <select name="GLCategoryID" id="GLCategoryID" class="form-control">
+                                    @foreach (var category in (ViewData["GLCategories"] as List<Hebony.Models.GLCategory>))
+                                    {
+                                        <option value=@category.Id>@category.Name</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.GLCategoryID, "", new { @class = "text-danger" })
+                            </div>
+
+                      
                             <div class="form-group">
                                 <div class="col-md-offset-2">
                                     <input type="submit" value="Create" class="mt-1 btn btn-primary" />
@@ -69,10 +81,5 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-
-
-
-
 
 

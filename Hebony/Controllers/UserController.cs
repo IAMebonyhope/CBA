@@ -27,6 +27,13 @@ namespace Hebony.Controllers
             return View(context.Users.Include(s => s.Roles));
         }
 
+        // GET: Teller
+        public ActionResult Tellers()
+        {
+            //var Tellers = context.Users.Where(u => u.Roles.Any(r => r.Role.Name))
+            return View(context.Users.Include(s => s.Roles));
+        }
+
         // GET: User/Details/5
         public ActionResult Details(string id)
         {
@@ -49,6 +56,7 @@ namespace Hebony.Controllers
         {
             ViewData["Branches"] = context.Branches.ToList();
             ViewData["Roles"] = context.Roles.Select(x => new SelectListItem { Text = x.Name, Value = x.Id }).ToList();
+            ViewData["TillAccounts"] = context.GLAccounts.Where(b => b.GLCategory.Name == "Cash Asset") .ToList();
             return View();
         }
 
@@ -73,8 +81,9 @@ namespace Hebony.Controllers
                 user.UserName = model.UserName;
                 user.PhoneNumber = model.PhoneNumber;
                 user.Branch = context.Branches.Find(model.BranchID);
+                user.GLAccount = context.GLAccounts.Find(model.TillAccountID);
 
-                string userPWD = GeneratePassword();
+                string userPWD = Helper.GenerateUserPassword();
                 var chkUser = UserManager.Create(user, userPWD);
   
                 if (chkUser.Succeeded)
@@ -210,27 +219,7 @@ namespace Hebony.Controllers
             base.Dispose(disposing);
         }
 
-        private string GeneratePassword()
-        {    
-            //todo
-            //write own generate password function
-            int length = 10;
-
-            StringBuilder password = new StringBuilder();
-            Random random = new Random();
-
-            char letter;
-
-            for (int i = 0; i < length; i++)
-            {
-                double flt = random.NextDouble();
-                int shift = Convert.ToInt32(Math.Floor(25 * flt));
-                letter = Convert.ToChar(shift + 65);
-                password.Append(letter);
-            }
-            
-            return password.ToString();
-        }
+        
 
     }
 }

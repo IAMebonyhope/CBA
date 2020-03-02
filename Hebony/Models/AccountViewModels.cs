@@ -81,6 +81,9 @@ namespace Hebony.Models
         [Display(Name = "Branch")]
         public int BranchID { get; set; }
 
+        [Display(Name = "Till Account")]
+        public int TillAccountID { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

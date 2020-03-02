@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Hebony.Models.GLCategory>
+﻿@model IEnumerable<Hebony.Models.GLAccount>
 
 @{
     var i = 0;
@@ -11,9 +11,9 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div>
-                    GL Category Management / View All
+                    GL Account Management / View All
                     <div class="page-title-subheading">
-                        view all created gl categories
+                        view all created gl accounts
                     </div>
                 </div>
             </div>
@@ -26,8 +26,8 @@
                     Users
                     <div class="btn-actions-pane-right">
                         <div role="group" class="btn-group-sm btn-group">
-                            <a href="@Url.Action("Create", "GLCategory")">
-                                <button class="active btn btn-focus">Create GL Category</button>
+                            <a href="@Url.Action("Create", "GLAccount")">
+                                <button class="active btn btn-focus">Create GL Account</button>
                             </a>
                         </div>
                     </div>
@@ -38,8 +38,10 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Description</th>
-                                <th>Main Category</th>
+                                <th>Acc. No.</th>
+                                <th>Balance</th>
+                                <th>Branch</th>
+                                <th>GL Category</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
@@ -50,8 +52,10 @@
                                 <tr>
                                     <td class="text-muted">@i</td>
                                     <td>@item.Name</td>
-                                    <td>@item.Description</td>
-                                    <td>@item.MainCategory</td>                                    
+                                    <td>@item.AccNo</td>
+                                    <td>@item.Balance</td>
+                                    <td>@item.Branch.Name</td>
+                                    <td>@item.GLCategory.Name</td>
                                     <td class="text-center">
                                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                         @Html.ActionLink("Details", "Details", new { id = item.Id }) |
@@ -66,3 +70,4 @@
         </div>
     </div>
 </div>
+

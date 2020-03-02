@@ -7,56 +7,64 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Hebony.Models;
+using System.Text;
 
 namespace Hebony.Controllers
 {
     [Authorize(Roles = "Admin,Manager")]
-    public class GLCategoryController : Controller
+    public class GLAccountController : Controller
     {
         private ApplicationDbContext context = new ApplicationDbContext();
 
-        // GET: GLCategory
+        // GET: GLAccount
         public ActionResult Index()
         {
-            return View(context.GLCategories.ToList());
+            var GlAccounts = context.GLAccounts.Include(b => b.Branch).Include(g => g.GLCategory).ToList();
+            return View(GlAccounts);
         }
 
-        // GET: GLCategory/Details/5
+        // GET: GLAccount/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            GLCategory gLCategory = context.GLCategories.Find(id);
-            if (gLCategory == null)
+            GLAccount gLAccount = context.GLAccounts.Find(id);
+            if (gLAccount == null)
             {
                 return HttpNotFound();
             }
-            return View(gLCategory);
+            return View(gLAccount);
         }
 
-        // GET: GLCategory/Create
+        // GET: GLAccount/Create
         public ActionResult Create()
         {
+            ViewData["Branches"] = context.Branches.ToList();
+            ViewData["GLCategories"] = context.GLCategories.ToList();
             return View();
         }
 
-        // POST: GLCategory/Create
+        // POST: GLAccount/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(GLCategoryViewModel model)
+        public ActionResult Create(GLAccountViewModel model)
         {
+            ViewData["Branches"] = context.Branches.ToList();
+            ViewData["GLCategories"] = context.GLCategories.ToList();
             if (ModelState.IsValid)
             {
-                GLCategory glCategory = new GLCategory();
-                glCategory.Name = model.Name;
-                glCategory.Description = model.Description;
-                glCategory.MainCategory = (MainCategory)model.MainCategoryID;
+                GLAccount glAccount = new GLAccount();
+                glAccount.AccNo = Helper.GenerateGLAccNo(model.GLCategoryID);
+                glAccount.Name = model.Name;
+                glAccount.Balance = model.Balance;
+                glAccount.Branch = context.Branches.Find(model.BranchID);
+                glAccount.GLCategory = context.GLCategories.Find(model.GLCategoryID);
 
-                context.GLCategories.Add(glCategory);
+                context.GLAccounts.Add(glAccount);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -64,41 +72,47 @@ namespace Hebony.Controllers
             return View(model);
         }
 
-        // GET: GLCategory/Edit/5
+        // GET: GLAccount/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewData["Branches"] = context.Branches.ToList();
+            ViewData["GLCategories"] = context.GLCategories.ToList();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            GLCategory glCategory = context.GLCategories.Find(id);
-            if (glCategory == null)
+            GLAccount glAccount = context.GLAccounts.Find(id);
+            if (glAccount == null)
             {
                 return HttpNotFound();
             }
 
-            GLCategoryViewModel model = new GLCategoryViewModel();
-            model.Id = glCategory.Id;
-            model.Name = glCategory.Name;
-            model.Description = glCategory.Description;
-            model.MainCategoryID = (int)glCategory.MainCategory;
+            GLAccountViewModel model = new GLAccountViewModel();
+            model.AccNo = glAccount.AccNo;
+            model.Name = glAccount.Name;
+            model.Balance = glAccount.Balance;
+            model.BranchID = glAccount.Branch.ID;
+            model.GLCategoryID = glAccount.GLCategory.Id;
 
             return View(model);
         }
 
-        // POST: GLCategory/Edit/5
+        // POST: GLAccount/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(GLCategoryViewModel model)
+        public ActionResult Edit(GLAccountViewModel model)
         {
+            ViewData["Branches"] = context.Branches.ToList();
+            ViewData["GLCategories"] = context.GLCategories.ToList();
+
             if (ModelState.IsValid)
             {
-                GLCategory glCategory = context.GLCategories.Find(model.Id);
-                glCategory.Name = model.Name;
-                glCategory.Description = model.Description;
-                glCategory.MainCategory = (MainCategory)model.MainCategoryID;
+                GLAccount glAccount = context.GLAccounts.Find(model.Id);
+                glAccount.Name = model.Name;
+                glAccount.Branch = context.Branches.Find(model.BranchID);
 
                 context.SaveChanges();
                 return RedirectToAction("Index");
@@ -106,28 +120,28 @@ namespace Hebony.Controllers
             return View(model);
         }
 
-        // GET: GLCategory/Delete/5
+        // GET: GLAccount/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            GLCategory gLCategory = context.GLCategories.Find(id);
-            if (gLCategory == null)
+            GLAccount gLAccount = context.GLAccounts.Find(id);
+            if (gLAccount == null)
             {
                 return HttpNotFound();
             }
-            return View(gLCategory);
+            return View(gLAccount);
         }
 
-        // POST: GLCategory/Delete/5
+        // POST: GLAccount/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            GLCategory gLCategory = context.GLCategories.Find(id);
-            context.GLCategories.Remove(gLCategory);
+            GLAccount gLAccount = context.GLAccounts.Find(id);
+            context.GLAccounts.Remove(gLAccount);
             context.SaveChanges();
             return RedirectToAction("Index");
         }

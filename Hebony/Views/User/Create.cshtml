@@ -84,15 +84,14 @@
                             </div>
 
                             <div class="position-relative form-group">
-                                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="position-relative form-group">
-                                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.TillAccountID)
+                                <select name="TillAccountID" id="TillAccountID" class="form-control">
+                                    @foreach (var account in (ViewData["TillAccounts"] as List<Hebony.Models.GLAccount>))
+                                    {
+                                        <option value=@account.Id>@account.Name</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-group">

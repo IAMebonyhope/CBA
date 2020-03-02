@@ -190,6 +190,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\GLAccountController.cs" />
     <Compile Include="Controllers\GLCategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Branch.cs" />
+    <Compile Include="Models\CBAViewModel.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\CustomerAccount.cs" />
     <Compile Include="Models\CustomerAccountType.cs" />
@@ -2274,6 +2276,12 @@
     <Content Include="Views\GLCategory\Details.cshtml" />
     <Content Include="Views\GLCategory\Edit.cshtml" />
     <Content Include="Views\GLCategory\Index.cshtml" />
+    <Content Include="Views\GLAccount\Create.cshtml" />
+    <Content Include="Views\GLAccount\Delete.cshtml" />
+    <Content Include="Views\GLAccount\Details.cshtml" />
+    <Content Include="Views\GLAccount\Edit.cshtml" />
+    <Content Include="Views\GLAccount\Index.cshtml" />
+    <Content Include="Views\Shared\_TellerDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
