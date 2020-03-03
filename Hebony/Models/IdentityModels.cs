@@ -44,10 +44,16 @@ namespace Hebony.Models
 
         public DbSet<Hebony.Models.GLAccount> GLAccounts { get; set; }
 
-        public DbSet<Hebony.Models.CustomerAccountType> CustomerAccountTypes { get; set; }
+        public DbSet<Hebony.Models.Configuration> Configurations { get; set; }
 
         public DbSet<Hebony.Models.CustomerAccount> CustomerAccounts { get; set; }
 
         public DbSet<Hebony.Models.Customer> Customers { get; set; }
+
+        public DbSet<Hebony.Models.GLPosting> GLPostings { get; set; }
+
+        public DbSet<Hebony.Models.TellerPosting> TellerPostings { get; set; }
+
+        public DbSet<Hebony.Models.Transaction> Transactions { get; set; }
     }
 }

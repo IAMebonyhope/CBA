@@ -6,6 +6,13 @@ using System.Web;
 
 namespace Hebony.Models
 {
+    public enum AccountType
+    {
+        Savings,
+        Current,
+        Loan
+    }
+
     public class CustomerAccount
     {
         public int Id { get; set; }
@@ -14,17 +21,20 @@ namespace Hebony.Models
 
         public string AccNo { get; set; }
 
+        public bool IsActive { get; set; } = true;
+
         public Branch Branch { get; set; }
 
         public Customer Customer { get; set; }
 
-        public CustomerAccountType CustomerAccountType { get; set; }
+        public AccountType AccountType { get; set; }
 
         public Double Balance { get; set; }
 
-        public CustomerAccount LinkedAccount { get; set; }
+        public Double DailyInterestAccrued { get; set; }
 
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
+        public Double DailyCOTAccrued { get; set; }
+
+        public int SavingsWithdrawalCount { get; set; }
     }
 }

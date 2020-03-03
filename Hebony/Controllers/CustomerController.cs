@@ -7,64 +7,57 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Hebony.Models;
-using System.Text;
 
 namespace Hebony.Controllers
 {
-    [Authorize(Roles = "Admin,Manager")]
-    public class GLAccountController : Controller
+    public class CustomerController : Controller
     {
         private ApplicationDbContext context = new ApplicationDbContext();
 
-        // GET: GLAccount
+        // GET: Customer
         public ActionResult Index()
         {
-            var GlAccounts = context.GLAccounts.Include(b => b.Branch).Include(g => g.GLCategory).ToList();
-            return View(GlAccounts);
+            return View(context.Customers.ToList());
         }
 
-        // GET: GLAccount/Details/5
+        // GET: Customer/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            GLAccount gLAccount = context.GLAccounts.Find(id);
-            if (gLAccount == null)
+            Customer customer = context.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(gLAccount);
+            return View(customer);
         }
 
-        // GET: GLAccount/Create
+        // GET: Customer/Create
         public ActionResult Create()
         {
-            ViewData["Branches"] = context.Branches.ToList();
-            ViewData["GLCategories"] = context.GLCategories.ToList();
             return View();
         }
 
-        // POST: GLAccount/Create
+        // POST: Customer/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(GLAccountViewModel model)
+        public ActionResult Create(CustomerViewModel model)
         {
-            ViewData["Branches"] = context.Branches.ToList();
-            ViewData["GLCategories"] = context.GLCategories.ToList();
             if (ModelState.IsValid)
             {
-                GLAccount glAccount = new GLAccount();
-                glAccount.AccNo = Helper.GenerateGLAccNo(model.GLCategoryID);
-                glAccount.Name = model.Name;
-                glAccount.Balance = model.Balance;
-                glAccount.Branch = context.Branches.Find(model.BranchID);
-                glAccount.GLCategory = context.GLCategories.Find(model.GLCategoryID);
+                Customer customer = new Customer();
+                customer.FirstName = model.FirstName;
+                customer.LastName = model.LastName;
+                customer.Email = model.Email;
+                customer.PhoneNumber = model.PhoneNumber;
+                customer.Gender = (Gender)model.Gender;
 
-                context.GLAccounts.Add(glAccount);
+                context.Customers.Add(customer);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -72,73 +65,73 @@ namespace Hebony.Controllers
             return View(model);
         }
 
-        // GET: GLAccount/Edit/5
+        // GET: Customer/Edit/5
         public ActionResult Edit(int? id)
         {
-            ViewData["Branches"] = context.Branches.ToList();
-            ViewData["GLCategories"] = context.GLCategories.ToList();
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            GLAccount glAccount = context.GLAccounts.Find(id);
-            if (glAccount == null)
+            Customer customer = context.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
 
-            GLAccountViewModel model = new GLAccountViewModel();
-            model.Name = glAccount.Name;
-            model.BranchID = glAccount.Branch.ID;
-
+            CustomerViewModel model = new CustomerViewModel();
+            model.FirstName = customer.FirstName;
+            model.LastName = customer.LastName;
+            model.Email = customer.Email;
+            model.PhoneNumber = customer.PhoneNumber;
+            model.Gender = (int)customer.Gender;
             return View(model);
         }
 
-        // POST: GLAccount/Edit/5
+        // POST: Customer/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(GLAccountViewModel model)
+        public ActionResult Edit(CustomerViewModel model)
         {
-            ViewData["Branches"] = context.Branches.ToList();
-            ViewData["GLCategories"] = context.GLCategories.ToList();
-
             if (ModelState.IsValid)
             {
-                GLAccount glAccount = context.GLAccounts.Find(model.Id);
-                glAccount.Name = model.Name;
-                glAccount.Branch = context.Branches.Find(model.BranchID);
+                Customer customer = context.Customers.Find(model.Id);
+                customer.FirstName = model.FirstName;
+                customer.LastName = model.LastName;
+                customer.Email = model.Email;
+                customer.PhoneNumber = model.PhoneNumber;
+                customer.Gender = (Gender)model.Gender;
 
                 context.SaveChanges();
                 return RedirectToAction("Index");
+
             }
             return View(model);
         }
 
-        // GET: GLAccount/Delete/5
+        // GET: Customer/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            GLAccount gLAccount = context.GLAccounts.Find(id);
-            if (gLAccount == null)
+            Customer customer = context.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(gLAccount);
+            return View(customer);
         }
 
-        // POST: GLAccount/Delete/5
+        // POST: Customer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            GLAccount gLAccount = context.GLAccounts.Find(id);
-            context.GLAccounts.Remove(gLAccount);
+            Customer customer = context.Customers.Find(id);
+            context.Customers.Remove(customer);
             context.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -1,0 +1,90 @@
+﻿@model Hebony.Models.GLPostingViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div>
+                    GL Posting Management / Create New
+                    <div class="page-title-subheading">
+                        create new gl post
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">New GL Post</h5>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.CreditAmount, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.CreditAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CreditAmount, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.CreditAccountID)
+                                <select name="CreditAccountID" id="CreditAccountID" class="form-control">
+                                    @foreach (var account in (ViewData["GLAccounts"] as List<Hebony.Models.GLAccount>))
+                                    {
+                                        <option value=@account.Id>@account.Name</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.CreditAccountID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.DebitAmount, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.DebitAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DebitAmount, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.DebitAccountID)
+                                <select name="DebitAccountID" id="DebitAccountID" class="form-control">
+                                    @foreach (var account in (ViewData["GLAccounts"] as List<Hebony.Models.GLAccount>))
+                                    {
+                                        <option value=@account.Id>@account.Name</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.DebitAccountID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.Narration, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Narration, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Narration, "", new { @class = "text-danger" })
+                            </div>
+
+                           
+                            <div class="form-group">
+                                <div class="col-md-offset-2">
+                                    <input type="submit" value="Create" class="mt-1 btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+

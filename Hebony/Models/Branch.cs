@@ -13,6 +13,10 @@ namespace Hebony.Models
 
         public string Address { get; set; }
 
+        public long SortCode { get; set; }
+
+        public bool IsOpen { get; set; } = true;
+
 
     }
 }

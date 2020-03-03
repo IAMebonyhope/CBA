@@ -9,10 +9,10 @@ namespace Hebony.Models
     public enum MainCategory
     {
         Asset = 1,
-        Liabilities = 2,
+        Liability = 2,
         Capital = 3,
         Income = 4,
-        Expenses = 5,
+        Expense = 5,
     }
     public class GLCategory
     {

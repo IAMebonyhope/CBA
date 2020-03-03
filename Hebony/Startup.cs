@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
+using System;
 
 [assembly: OwinStartupAttribute(typeof(Hebony.Startup))]
 namespace Hebony
@@ -14,7 +15,28 @@ namespace Hebony
             ConfigureAuth(app);
             //createRolesandUsers();
             //createAdmin();
+            //createConfig();
+        }
 
+        public void createConfig()
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+
+            Configuration config = new Configuration();
+            config.FinancialDate = DateTime.Now;
+            config.SavingsCreditInterestRate = 0.2;
+            config.SavingsMinimumBalance = 1000;
+            config.SavingsInterestExpenseGLAccount = context.GLAccounts.Find(1002);
+            config.CurrentCOTIncomeGLAccount = context.GLAccounts.Find(1004);
+            config.SavingsInterestPayableGLAccount = context.GLAccounts.Find(1005);
+            config.CurrentInterestExpenseGLAccount = context.GLAccounts.Find(1003);
+            config.CurrentInterestPayableGLAccount = context.GLAccounts.Find(1006);
+            config.CurrentCreditInterestRate = 10;
+            config.CurrentMinimumBalance = 10000;
+            config.CurrentCOT = 100;
+
+            context.Configurations.Add(config);
+            context.SaveChanges();
         }
 
         private void createAdmin()
@@ -25,7 +47,7 @@ namespace Hebony
             var user = new ApplicationUser();
             user.UserName = "admin3";
             user.Email = "admin3@gmail.com";
-
+        
             string userPWD = "password";
 
             var chkUser = UserManager.Create(user, userPWD);

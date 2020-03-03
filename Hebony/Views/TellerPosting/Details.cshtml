@@ -1,0 +1,66 @@
+﻿@model Hebony.Models.TellerPosting
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>TellerPosting</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DebitAmount)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DebitAmount)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CreditAmount)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CreditAmount)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Narration)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Narration)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TransactionDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TransactionDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PostingType)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PostingType)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

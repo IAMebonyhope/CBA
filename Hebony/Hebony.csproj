@@ -190,14 +190,26 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\CustomerAccountController.cs" />
+    <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\EODController.cs" />
     <Compile Include="Controllers\GLAccountController.cs" />
     <Compile Include="Controllers\GLCategoryController.cs" />
+    <Compile Include="Controllers\GLPostingController.cs" />
+    <Compile Include="Controllers\Helper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\TellerPostingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\EODLogic.cs" />
+    <Compile Include="Logic\GLPostingLogic.cs" />
+    <Compile Include="Logic\TellerPostingLogic.cs" />
+    <Compile Include="Logic\TransactionLogic.cs" />
     <Compile Include="Migrations\202002241627120_initialMigration.cs" />
     <Compile Include="Migrations\202002241627120_initialMigration.Designer.cs">
       <DependentUpon>202002241627120_initialMigration.cs</DependentUpon>
@@ -222,17 +234,32 @@
     <Compile Include="Migrations\202002291826202_updated user properties.Designer.cs">
       <DependentUpon>202002291826202_updated user properties.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003021346136_added posting models.cs" />
+    <Compile Include="Migrations\202003021346136_added posting models.Designer.cs">
+      <DependentUpon>202003021346136_added posting models.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003022055071_made changes to model.cs" />
+    <Compile Include="Migrations\202003022055071_made changes to model.Designer.cs">
+      <DependentUpon>202003022055071_made changes to model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003030154107_made added transaction model.cs" />
+    <Compile Include="Migrations\202003030154107_made added transaction model.Designer.cs">
+      <DependentUpon>202003030154107_made added transaction model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\CBAViewModel.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\CustomerAccount.cs" />
-    <Compile Include="Models\CustomerAccountType.cs" />
+    <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\GLAccount.cs" />
     <Compile Include="Models\GLCategory.cs" />
+    <Compile Include="Models\GLPosting.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\TellerPosting.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -2282,6 +2309,31 @@
     <Content Include="Views\GLAccount\Edit.cshtml" />
     <Content Include="Views\GLAccount\Index.cshtml" />
     <Content Include="Views\Shared\_TellerDashboard.cshtml" />
+    <Content Include="Views\Configuration\Create.cshtml" />
+    <Content Include="Views\Configuration\Delete.cshtml" />
+    <Content Include="Views\Configuration\Details.cshtml" />
+    <Content Include="Views\Configuration\Edit.cshtml" />
+    <Content Include="Views\Configuration\Index.cshtml" />
+    <Content Include="Views\CustomerAccount\Create.cshtml" />
+    <Content Include="Views\CustomerAccount\Delete.cshtml" />
+    <Content Include="Views\CustomerAccount\Details.cshtml" />
+    <Content Include="Views\CustomerAccount\Edit.cshtml" />
+    <Content Include="Views\CustomerAccount\Index.cshtml" />
+    <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\Customer\Delete.cshtml" />
+    <Content Include="Views\Customer\Details.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\GLPosting\Create.cshtml" />
+    <Content Include="Views\GLPosting\Delete.cshtml" />
+    <Content Include="Views\GLPosting\Details.cshtml" />
+    <Content Include="Views\GLPosting\Edit.cshtml" />
+    <Content Include="Views\GLPosting\Index.cshtml" />
+    <Content Include="Views\TellerPosting\Create.cshtml" />
+    <Content Include="Views\TellerPosting\Delete.cshtml" />
+    <Content Include="Views\TellerPosting\Details.cshtml" />
+    <Content Include="Views\TellerPosting\Edit.cshtml" />
+    <Content Include="Views\TellerPosting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2292,6 +2344,8 @@
     <Folder Include="Content\loginAssets\vendor\fortawesome\fontawesome-free\scss\" />
     <Folder Include="Content\loginAssets\vendor\holderjs\src\" />
     <Folder Include="Content\loginAssets\vendor\holderjs\test\" />
+    <Folder Include="Views\EOD\" />
+    <Folder Include="Views\Report\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -2314,6 +2368,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002291826202_updated user properties.resx">
       <DependentUpon>202002291826202_updated user properties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003021346136_added posting models.resx">
+      <DependentUpon>202003021346136_added posting models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003022055071_made changes to model.resx">
+      <DependentUpon>202003022055071_made changes to model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003030154107_made added transaction model.resx">
+      <DependentUpon>202003030154107_made added transaction model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

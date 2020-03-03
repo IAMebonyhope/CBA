@@ -1,0 +1,75 @@
+﻿
+@model Hebony.Models.Configuration
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div>
+                    Settings / Configuration
+                    <div class="page-title-subheading">
+                        Edit Configuration
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">Edit Configuration</h5>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Id)
+
+                        <div class="form-horizontal">
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.SavingsCreditInterestRate, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.SavingsCreditInterestRate, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SavingsCreditInterestRate, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.SavingsMinimumBalance, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.SavingsMinimumBalance, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SavingsMinimumBalance, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.SavingsInterestExpenseGLAccount)
+                                <select name="SavingsInterestExpenseGLAccount" id="SavingsInterestExpenseGLAccount" class="form-control">
+                                    @foreach (var account in (ViewData["GLAccounts"] as List<Hebony.Models.GLAccount>))
+                                    {
+
+                                            <option value=@account>@account.Name</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.SavingsInterestExpenseGLAccount, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2">
+                                    <input type="submit" value="Update" class="mt-1 btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+    
