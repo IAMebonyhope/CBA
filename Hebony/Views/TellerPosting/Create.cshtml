@@ -1,75 +1,92 @@
-﻿@model Hebony.Models.TellerPosting
+﻿@model Hebony.Models.TellerPostingViewModel
 
 @{
-    Layout = null;
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_TellerDashboard.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
-    @using (Html.BeginForm()) 
-    {
-        @Html.AntiForgeryToken()
-        
-        <div class="form-horizontal">
-            <h4>TellerPosting</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.DebitAmount, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.DebitAmount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.DebitAmount, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.CreditAmount, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CreditAmount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CreditAmount, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.Narration, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Narration, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Narration, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.TransactionDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TransactionDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TransactionDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.PostingType, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EnumDropDownListFor(model => model.PostingType, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PostingType, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div>
+                    Teller Posting Management / Create New
+                    <div class="page-title-subheading">
+                        create new teller post
+                    </div>
                 </div>
             </div>
         </div>
-    }
-    
-    <div>
-        @Html.ActionLink("Back to List", "Index")
     </div>
-</body>
-</html>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">New GL Post</h5>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.CreditAmount, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.CreditAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CreditAmount, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.DebitAmount, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.DebitAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DebitAmount, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.CustomerAccountID)
+                                <select name="CustomerAccountID" id="CustomerAccountID" class="form-control">
+                                    @foreach (var account in (ViewData["CustomerAccounts"] as List<Hebony.Models.CustomerAccount>))
+                                    {
+                                        <option value=@account.Id>@account.AccNo</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.CustomerAccountID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.PostingType)
+                                <select name="AccountType" id="AccountType" class="form-control">
+                                    @foreach (int i in Enum.GetValues(typeof(Hebony.Models.PostingType)))
+                                    {
+                                        <option value=@i>@Enum.GetName(typeof(Hebony.Models.PostingType), i)</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.PostingType, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="position-relative form-group">
+                                @Html.LabelFor(model => model.Narration, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Narration, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Narration, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2">
+                                    <input type="submit" value="Create" class="mt-1 btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+

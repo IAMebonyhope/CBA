@@ -32,7 +32,7 @@ namespace Hebony.Controllers
         // GET: GLPosting
         public ActionResult Index()
         {
-            return View(context.GLPostings.ToList());
+            return View(context.GLPostings.Include(g => g.DebitAccount).Include(c => c.CreditAccount).ToList());
         }
 
         // GET: GLPosting/Details/5
@@ -78,7 +78,7 @@ namespace Hebony.Controllers
             {
                 GLPosting gLPost = new GLPosting();
                 gLPost.CreditAccount = context.GLAccounts.Include(g => g.GLCategory).SingleOrDefault(x => x.Id == model.CreditAccountID);
-                gLPost.DebitAccount = context.GLAccounts.Include(g => g.GLCategory).SingleOrDefault(x => x.Id == model.CreditAccountID);
+                gLPost.DebitAccount = context.GLAccounts.Include(g => g.GLCategory).SingleOrDefault(x => x.Id == model.DebitAccountID);
                 gLPost.CreditAmount = model.CreditAmount;
                 gLPost.DebitAmount = model.DebitAmount;
                 gLPost.TransactionDate = DateTime.Now;

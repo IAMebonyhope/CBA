@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Hebony.Models;
 using Hebony.Logic;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Hebony.Controllers
 {
@@ -23,7 +25,7 @@ namespace Hebony.Controllers
 
         public ActionResult Index()
         {
-            return View(context.TellerPostings.ToList());
+            return View(context.TellerPostings.Include(c => c.CustomerAccount).Include(t => t.TillAccount).ToList());
         }
 
         // GET: TellerPosting/Details/5
@@ -71,10 +73,13 @@ namespace Hebony.Controllers
                 tellerPost.CreditAmount = model.CreditAmount;
                 tellerPost.DebitAmount = model.DebitAmount;
                 tellerPost.CustomerAccount = context.CustomerAccounts.Find(model.CustomerAccountID);
-                tellerPost.TillAccount = context.GLAccounts.Find(model.TillAccountID);
                 tellerPost.Narration = model.Narration;
                 tellerPost.TransactionDate = DateTime.Now;
                 tellerPost.PostingType = (PostingType)model.PostingType;
+
+                string currentUserId = User.Identity.GetUserId();
+                ApplicationUser currentUser = context.Users.FirstOrDefault(x => x.Id == currentUserId);
+                tellerPost.TillAccount = currentUser.GLAccount;
 
                 string result = TellerPostingLogic.PostTeller(tellerPost.CustomerAccount, tellerPost.TillAccount, tellerPost.CreditAmount, tellerPost.PostingType, config);
 

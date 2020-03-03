@@ -80,29 +80,26 @@ namespace Hebony.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Name")]
-        public string Name { get; set; }
-
         [Display(Name = "Account No")]
         public string AccNo { get; set; }
 
         [Required]
-        [Display(Name = "Branch ID")]
+        [Display(Name = "Branch")]
         public int BranchID { get; set; }
 
         [Required]
-        [Display(Name = "Customer ID")]
+        [Display(Name = "Customer")]
         public int CustomerID { get; set; }
 
-        [Display(Name = "Account Type ID")]
-        public int CustomerAccountTypeID { get; set; }
+        [Display(Name = "Account Type")]
+        public int AccountType { get; set; }
 
         public Double Balance { get; set; }
 
-        [Display(Name = "Linked Account ID")]
+        [Display(Name = "Linked Account")]
         public int LinkedAccountID { get; set; }
 
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 
     public class CustomerViewModel

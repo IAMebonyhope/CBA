@@ -505,10 +505,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("LogOff", "Account")">
-                                    <i class="metismenu-icon pe-7s-rocket"></i>
-                                    Log Out
-                                </a>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                                        <i class="metismenu-icon pe-7s-rocket"></i>
+                                        Log Out
+                                    </a>
+                                }
                             </li>
                         </ul>
                     </div>

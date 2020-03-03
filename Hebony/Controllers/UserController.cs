@@ -24,14 +24,14 @@ namespace Hebony.Controllers
         {
             //todo
             //filter out what should be displayed by using registerviewmodel
-            return View(context.Users.Include(s => s.Roles));
+            return View(context.Users.Include(b => b.Branch));
         }
 
         // GET: Teller
         public ActionResult Tellers()
         {
-            //var Tellers = context.Users.Where(u => u.Roles.Any(r => r.Role.Name))
-            return View(context.Users.Include(s => s.Roles));
+            //var Tellers = context.Users.Where(u => u.Roles.Any(r => r.RoleId == Role))
+            return View(context.Users.Include(b => b.Branch));
         }
 
         // GET: User/Details/5
@@ -91,6 +91,7 @@ namespace Hebony.Controllers
                     var role = context.Roles.Find(model.RoleID);
                     var result1 = UserManager.AddToRole(user.Id, role.Name);
 
+                    TempData["Password"] = userPWD;
                     TempData["UserCreated"] = "User Successfully Created";
 
                 }

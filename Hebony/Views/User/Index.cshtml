@@ -19,6 +19,7 @@
             </div>
         </div>
     </div>
+    <div class="row">@TempData["Password"]</div>
     <div class="row">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
@@ -41,7 +42,8 @@
                                 <th>User Name</th>
                                 <th>Email</th>
                                 <th>Branch</th>
-                                <th class="text-center">Actions</th>
+                                <th>Phone Number</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         @foreach (var item in Model)
@@ -59,10 +61,9 @@
                                             @item.Branch.Name
                                         }
                                     </td>
+                                    <td>@item.PhoneNumber</td>
                                     <td class="text-center">
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                                     </td>
                                 </tr>
                             </tbody>

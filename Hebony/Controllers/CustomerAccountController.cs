@@ -17,12 +17,12 @@ namespace Hebony.Controllers
         // GET: CustomerAccount
         public ActionResult Index()
         {
-            return View(
-                context.CustomerAccounts
+            var accounts = context.CustomerAccounts
                 .Include(b => b.Branch)
                 .Include(c => c.Customer)
-                .Include(t => t.AccountType)
-                .ToList()
+                .ToList();
+            return View(
+                accounts
                 );
         }
 
@@ -44,8 +44,8 @@ namespace Hebony.Controllers
         // GET: CustomerAccount/Create
         public ActionResult Create()
         {
-            //ViewData["Branches"] = context.Branches.ToList();
-            //ViewData["Customers"] = context.Customers.ToList();
+            ViewData["Branches"] = context.Branches.ToList();
+            ViewData["Customers"] = context.Customers.ToList();
             //ViewData["CustomerAccountTypes"] = context.CustomerAccountTypes.ToList();
             //ViewData["LinkedAccounts"] = context.CustomerAccounts.Where(c => c.Customer.Id == )
             return View();
@@ -56,16 +56,24 @@ namespace Hebony.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,AccNo,Balance,RowVersion")] CustomerAccount customerAccount)
+        public ActionResult Create(CustomerAccountViewModel model)
         {
+            ViewData["Branches"] = context.Branches.ToList();
+            ViewData["Customers"] = context.Customers.ToList();
             if (ModelState.IsValid)
             {
+                CustomerAccount customerAccount = new CustomerAccount();
+                customerAccount.AccNo = Helper.GenerateCustomerAccNo(model.AccountType, model.CustomerID);
+                customerAccount.AccountType = (AccountType)model.AccountType;
+                customerAccount.Balance = model.Balance;
+                customerAccount.Branch = context.Branches.Find(model.BranchID);
+                customerAccount.Customer = context.Customers.Find(model.CustomerID);
                 context.CustomerAccounts.Add(customerAccount);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(customerAccount);
+            return View(model);
         }
 
         // GET: CustomerAccount/Edit/5
@@ -75,15 +83,15 @@ namespace Hebony.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CustomerAccount customerAccount = context.CustomerAccounts.Find(id);
+            CustomerAccount customerAccount = context.CustomerAccounts.Include(b => b.Branch).SingleOrDefault( c => c.Id == id);
             if (customerAccount == null)
             {
                 return HttpNotFound();
             }
             CustomerAccountViewModel model = new CustomerAccountViewModel();
-            model.Name = customerAccount.Name;
             model.BranchID = customerAccount.Branch.ID;
-            return View(customerAccount);
+            ViewData["Branches"] = context.Branches.ToList();
+            return View(model);
         }
 
         // POST: CustomerAccount/Edit/5
@@ -93,10 +101,10 @@ namespace Hebony.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CustomerAccountViewModel model)
         {
+            ViewData["Branches"] = context.Branches.ToList();
             if (ModelState.IsValid)
             {
                 CustomerAccount customerAccount = context.CustomerAccounts.Find(model.Id);
-                customerAccount.Name = model.Name;
                 customerAccount.Branch = context.Branches.Find(model.BranchID);
                 context.SaveChanges();
                 return RedirectToAction("Index");
